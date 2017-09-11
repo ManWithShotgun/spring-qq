@@ -3,8 +3,33 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-    <bean id="helloBean" class="ru.ilia.HelloWorld">
-        <property name="name" value="nmbmbnmbnmb" />
+    <!-- Hello World (ru.ilia.helloworld) -->
+    <bean id="helloBean" class="ru.ilia.helloworld.HelloWorld">
+        <property name="name" value="Any Text This" />
     </bean>
+    <!-- end -->
+
+    <!-- Event Writer () -->
+    <bean id="client" class="ru.ilia.Client">
+        <constructor-arg value="1"/>
+        <constructor-arg value="ADdasdas"/>
+    </bean>
+    <bean id="app" class="ru.ilia.EventsCreater">
+        <constructor-arg ref="client"/>
+        <constructor-arg ref="eventLogger"/>
+        <property name="event" ref="event"/>
+    </bean>
+    <bean id="eventLogger" class="ru.ilia.ConsoleEventLogger"/>
+    <bean id="event" class="ru.ilia.Event" scope="prototype">
+        <constructor-arg>
+            <bean class="java.util.Date"/>
+        </constructor-arg>
+        <constructor-arg ref="dateFormat"/>
+    </bean>
+    <!-- * getDataTimeInstance is static method (invoke from current class) like : DateFormat.getDataTimeInstance  *-->
+    <!-- *In factory-method can send arg if use <constructor-arg>* -->
+    <bean id="dateFormat" class="java.text.DateFormat" factory-method="getDateTimeInstance"/>
+    <!-- end -->
+
 
 </beans>
