@@ -26,4 +26,8 @@ public class Event {
     public String toString() {
         return String.format("MSG-%d: %s in %s", id, msg, dateFormat.format(date));
     }
+
+    private void init() {
+        System.out.println("init new Event");
+    }
 }

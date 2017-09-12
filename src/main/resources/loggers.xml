@@ -1,0 +1,18 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+    <bean id="eventLogger" class="ru.ilia.ConsoleEventLogger"/>
+
+    <bean id="fileLogger" class="ru.ilia.FileEventLogger" init-method="init">
+        <property name="fileName" value="events.log"/>
+    </bean>
+
+    <bean id="cacheFileLogger" class="ru.ilia.CacheFileEventLogger" destroy-method="destroy" parent="fileLogger">
+        <constructor-arg value="3"/>
+    </bean>
+
+
+</beans>

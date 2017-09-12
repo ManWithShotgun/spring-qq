@@ -11,6 +11,7 @@
     <properties>
         <spring.version>3.2.17.RELEASE</spring.version>
         <slf4j.version>1.6.1</slf4j.version>
+        <commons-io.version>2.4</commons-io.version>
     </properties>
 
     <dependencies>
@@ -30,6 +31,12 @@
             <artifactId>slf4j-log4j12</artifactId>
             <scope>runtime</scope>
             <version>${slf4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons-io.version}</version>
         </dependency>
     </dependencies>
 

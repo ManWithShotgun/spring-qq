@@ -14,18 +14,22 @@
         <constructor-arg value="1"/>
         <constructor-arg value="ADdasdas"/>
     </bean>
+
     <bean id="app" class="ru.ilia.EventsCreater">
         <constructor-arg ref="client"/>
-        <constructor-arg ref="eventLogger"/>
-        <property name="event" ref="event"/>
+        <constructor-arg ref="cacheFileLogger"/>
     </bean>
-    <bean id="eventLogger" class="ru.ilia.ConsoleEventLogger"/>
-    <bean id="event" class="ru.ilia.Event" scope="prototype">
+
+    <!-- Loggers -->
+    <import resource="loggers.xml"/>
+
+    <bean id="event" class="ru.ilia.Event" init-method="init" scope="prototype">
         <constructor-arg>
             <bean class="java.util.Date"/>
         </constructor-arg>
         <constructor-arg ref="dateFormat"/>
     </bean>
+
     <!-- * getDataTimeInstance is static method (invoke from current class) like : DateFormat.getDataTimeInstance  *-->
     <!-- *In factory-method can send arg if use <constructor-arg>* -->
     <bean id="dateFormat" class="java.text.DateFormat" factory-method="getDateTimeInstance"/>

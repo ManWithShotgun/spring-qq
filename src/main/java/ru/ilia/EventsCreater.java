@@ -7,19 +7,14 @@ public class EventsCreater {
 
     private Log log = LogFactory.getLog(EventsCreater.class);
     private Client client;
-    private ConsoleEventLogger logger;
-    private Event event;
+    private EventLogger logger;
 
-    public void setEvent(Event event) {
-        this.event = event;
-    }
-
-    public EventsCreater(Client client, ConsoleEventLogger logger) {
+    public EventsCreater(Client client, EventLogger logger) {
         this.client = client;
         this.logger = logger;
     }
 
-    void logEvent(String msg) {
+    void logEvent(Event event, String msg) {
         if (client != null) {
             msg = msg.replaceAll(client.getId(), client.getFullName());
         }
