@@ -1,7 +1,14 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+    <!-- c: for constructor-arg -->
+    <!-- p: for property -->
 
     <!-- Hello World (ru.ilia.helloworld) -->
     <bean id="helloBean" class="ru.ilia.helloworld.HelloWorld">
@@ -10,10 +17,24 @@
     <!-- end -->
 
     <!-- Event Writer () -->
-    <bean id="client" class="ru.ilia.Client">
-        <constructor-arg value="1"/>
-        <constructor-arg value="ADdasdas"/>
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:client.properties</value>
+            </list>
+        </property>
+        <property name="ignoreResourceNotFound" value="true"/>
+        <!-- Next property say: first check in env, next in prop files (default revice) -->
+        <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
     </bean>
+
+    <bean id="client" class="ru.ilia.Client" c:id="${clientID}" c:fullName="${name}"/>
+    <!-- can like : *
+    <bean id="client" class="ru.ilia.Client">
+        <constructor-arg value="${clientID}"/>
+        <constructor-arg value="${name}"/>
+    </bean>
+    * -->
 
     <bean id="app" class="ru.ilia.EventsCreater">
         <constructor-arg ref="client"/>
@@ -29,6 +50,12 @@
         </constructor-arg>
         <constructor-arg ref="dateFormat"/>
     </bean>
+
+    <util:map id="loggerMap">
+        <entry key="INFO" value-ref="consoleEventLogger" />
+        <entry key="ERROR" value-ref="combinedEventLogger" />
+    </util:map>
+
 
     <!-- * getDataTimeInstance is static method (invoke from current class) like : DateFormat.getDataTimeInstance  *-->
     <!-- *In factory-method can send arg if use <constructor-arg>* -->
